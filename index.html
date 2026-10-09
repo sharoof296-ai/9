@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيد ميلاد سعيد لِـ أغلى الناس 🎀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            font-family: 'Cairo', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* حاوية التطبيق */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 850px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* الأقسام وتخفيضها وظهورها بانيميشن */
+        .section {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .section.active {
+            display: flex;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* النجوم المتساقطة */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: #ffffff;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: starFall linear infinite;
+        }
+
+        @keyframes starFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            30% { opacity: 0.8; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.1; }
+        }
+
+        /* الشخصيات والترحيب */
+        .character-box img {
+            width: 160px;
+            height: auto;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+            margin-bottom: 15px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .animate-float {
+            animation: float 2.5s infinite ease-in-out;
+        }
+
+        .main-title {
+            color: #1e3a8a;
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 25px;
+        }
+
+        .interactive-btn {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .interactive-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* القسم الثاني: القلب التفاعلي */
+        .top-decor {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .melody-char {
+            width: 75px;
+        }
+
+        .instruction-box {
+            margin-bottom: 15px;
+            width: 90%;
+        }
+
+        .instruction-box h2 {
+            color: #1e3a8a;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            border: 1px solid #bae6fd;
+        }
+
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #f43f5e, #fb7185);
+            transition: width 0.3s ease;
+        }
+
+        .counter-text {
+            color: #0284c7;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        /* تصميم القلب التفاعلي */
+        .interactive-heart-wrapper {
+            cursor: pointer;
+            margin: 15px 0;
+            transition: transform 0.1s ease;
+            user-select: none;
+        }
+
+        .interactive-heart-wrapper:active {
+            transform: scale(0.85);
+        }
+
+        .heart-shape {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            background-color: #ffffff;
+            display: inline-block;
+            transform: rotate(-45deg);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(244, 63, 94, 0.15);
+            overflow: hidden;
+            border: 3px solid #fbcfe8;
+        }
+
+        .heart-shape::before,
+        .heart-shape::after {
+            content: '';
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .heart-shape::before { top: -55px; left: 0; }
+        .heart-shape::after { left: 55px; top: 0; }
+
+        .heart-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top, #e11d48, #fb7185);
+            transition: height 0.2s ease;
+            z-index: 1;
+        }
+
+        .heart-emoji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            font-size: 2.2rem;
+            z-index: 2;
+        }
+
+        /* الرسالة المخفية الأولى */
+        .hidden-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease forwards;
+            margin-top: 10px;
+        }
+
+        .poem-highlight {
+            color: #1e3a8a;
+            font-size: 1.05rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 12px 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .star-btn {
+            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+            box-shadow: 0 8px 20px rgba(244, 63, 94, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* القسم الثالث: الرسالة الطويلة */
+        .sanrio-duo-header {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .sanrio-duo-header img {
+            width: 60px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.1);
+            width: 90%;
+            max-height: 65vh;
+            border: 2px solid #bae6fd;
+            text-align: right;
+        }
+
+        .glass-card h2 {
+            color: #1e3a8a;
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            border-bottom: 2px dashed #93c5fd;
+            padding-bottom: 8px;
+        }
+
+        .letter-scroll-area {
+            max-height: 48vh;
+            overflow-y: auto;
+            padding-left: 5px;
+        }
+
+        .letter-scroll-area::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .letter-scroll-area::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+            border-radius: 10px;
+        }
+
+        .letter-scroll-area p {
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .final-signature {
+            color: #e11d48 !important;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.05rem !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- خلفية النجوم المتحركة المتساقطة -->
+    <div class="stars-container" id="starsContainer"></div>
+
+    <!-- حاوية التطبيق -->
+    <div class="app-container">
+
+        <!-- القسم الأول: الترحيب وشخصية هلو كيتي -->
+        <section id="welcomeSection" class="section active">
+            <div class="character-box animate-float">
+                <img src="https://i.pinimg.com/originals/9f/c0/80/9fc0803c051a82ea3fbba31b25027581.png" alt="Hello Kitty" class="sanrio-char">
+            </div>
+            <h1 class="main-title">يوم ميلاد سعيد! ✨</h1>
+            <button id="startBtn" class="interactive-btn">اضغط هنا 🎀</button>
+        </section>
+
+        <!-- القسم الثاني: القلب التفاعلي البحت -->
+        <section id="heartSection" class="section">
+            <div class="top-decor">
+                <img src="https://i.pinimg.com/originals/99/31/6a/99316a3f114e4b52b3137b03a746564e.png" alt="My Melody" class="melody-char">
+            </div>
+
+            <div class="instruction-box">
+                <h2>اضغط على القلب لينبض ويمتلئ بالحب! 💖</h2>
+                <div class="progress-bar-bg">
+                    <div id="progressBarFill" class="progress-bar-fill"></div>
+                </div>
+                <p class="counter-text"><span id="clickCount">0</span> / 15</p>
+            </div>
+
+            <!-- القلب التفاعلي النابض -->
+            <div class="interactive-heart-wrapper" id="heartBtn">
+                <div class="heart-shape">
+                    <div class="heart-fill" id="heartFill"></div>
+                    <span class="heart-emoji">💗</span>
+                </div>
+            </div>
+
+            <!-- الرسالة الأولى التي تظهر بعد امتلاء القلب -->
+            <div id="firstMsgBox" class="hidden-box">
+                <p class="poem-highlight">"عسى سنين الهنا ترافق سنينك.. ويا عسى دروب الفرح تحتويك"</p>
+                <button id="showLetterBtn" class="interactive-btn star-btn">اضغط على شكل نجمة ⭐</button>
+            </div>
+        </section>
+
+        <!-- القسم الثالث: الرسالة الطويلة مع شخصيات سانريو -->
+        <section id="letterSection" class="section">
+            <div class="sanrio-duo-header">
+                <img src="https://i.pinimg.com/originals/9f/c0/80/9fc0803c051a82ea3fbba31b25027581.png" alt="Hello Kitty">
+                <img src="
